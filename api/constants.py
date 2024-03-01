@@ -4,6 +4,8 @@ Contains the constants for the base system
 
 from enum import Enum
 
+# LABEL_SIZE = 128
+
 
 class Weekday(Enum):
     """

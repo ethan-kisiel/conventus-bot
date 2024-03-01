@@ -22,6 +22,8 @@ from sqlalchemy.orm import relationship
 
 from .constants import TableName
 
+# from .constants import LABEL_SIZE
+
 
 class Base(DeclarativeBase):
     """Declarative base class"""
@@ -121,7 +123,7 @@ class Task(Base):
     )
 
     @property
-    def is_complete(self):
+    def is_complete(self) -> bool:
         """
         Property returns true if the completed at is not a null value
         """
@@ -146,3 +148,13 @@ class Feature(Base):
     description: Mapped[str] = mapped_column()
 
     tasks: Mapped[List["Task"]] = relationship(back_populates="feature")
+
+    @property
+    def completion_status(self) -> float:
+        """
+        Returns a float of complete tasks / all tasks
+        """
+
+        complete_tasks = len([task for task in self.tasks if task.is_complete])
+
+        return complete_tasks / len(self.tasks)
